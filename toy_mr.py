@@ -3,9 +3,7 @@ import datetime
 import pygame
 from interfaces import Environment
 import numpy as np
-import os
-from random import choice
-from embedding_dqn.rmax_learner import AbstractState
+from abstract_state import AbstractState
 
 GRID_COLOR = (0, 0, 0)
 BACKGROUND_COLOR = (255, 255, 255)
@@ -723,8 +721,8 @@ class ToyMR(Environment):
         rect = (coord[0] * self.tile_size, coord[1] * self.tile_size + self.hud_height, self.tile_size, self.tile_size)
         pygame.draw.ellipse(self.screen, color, rect)
 
-    def ndraw_rect(self, coord, color):
-        rnect = (coord[0] * self.tile_size, coord[1] * self.tile_size + self.hud_height, self.tile_size, self.tile_size)
+    def draw_rect(self, coord, color):
+        rect = (coord[0] * self.tile_size, coord[1] * self.tile_size + self.hud_height, self.tile_size, self.tile_size)
         pygame.draw.rect(self.screen, color, rect)
 
     def save_map(self, file_name, draw_sectors=False):

@@ -67,7 +67,7 @@ def flat_actions_to_state_pairs(flat_index, num_abstract_states):
 
 def state_pairs_to_flat_actions(i, j, num_abstract_states):
     mapping = [(i, j) for i in range(num_abstract_states) for j in range(num_abstract_states) if i != j]
-    return dict(zip(mapping, range(num_abstract_states)))[(i, j)]
+    return dict(list(zip(mapping, list(range(num_abstract_states)))))[(i, j)]
 
 def valid_actions_for_sigma(actions_for_sigma, sigma, num_abstract_states):
     return tf.reduce_sum(actions_for_sigma * tf.reshape(sigma, [-1, num_abstract_states, 1]), reduction_indices=[1])
@@ -294,7 +294,7 @@ class L0_Learner:
     def update_q_values(self):
         S1, Sigma1, A, R, S2, Sigma2, T, M1, M2 = self.replay_buffer.sample(self.batch_size)
         Aonehot = np.zeros((self.batch_size, self.num_actions), dtype=np.float32)
-        Aonehot[range(len(A)), A] = 1
+        Aonehot[list(range(len(A))), A] = 1
 
         if self.abstraction_function is None:
             [_, loss, q_online, maxQ, q_target, r, y, error, delta, g,
@@ -306,9 +306,9 @@ class L0_Learner:
                            self.inp_terminated: T, self.inp_mask: M1, self.inp_sp_mask: M2})
         else:
             onehot_sigma = np.zeros((self.batch_size, 2))
-            onehot_sigma[range(len(Sigma1)), Sigma1] = 1
+            onehot_sigma[list(range(len(Sigma1))), Sigma1] = 1
             onehot_sigma_p = np.zeros((self.batch_size, 2))
-            onehot_sigma_p[range(len(Sigma2)), Sigma2] = 1
+            onehot_sigma_p[list(range(len(Sigma2))), Sigma2] = 1
 
             [_, loss, q_online, maxQ, q_target, r, y, error, delta, g, use_backup] = self.sess.run(
                 [self.train_op, self.loss, self.q_online, self.maxQ, self.q_target, self.r, self.y, self.error, self.delta,
@@ -439,12 +439,12 @@ class L1_Learner:
 
         if base_network_file is not None:
             self.l0_learner.base_network_saver.restore(self.sess, base_network_file)
-            print 'Restored network from file'
+            print('Restored network from file')
 
     def update_q_values(self):
         S1, Sigma1, A, R, S2, Sigma2, T, M1, M2 = self.replay_buffer.sample(self.batch_size)
         Aonehot = np.zeros((self.batch_size, self.num_abstract_actions), dtype=np.float32)
-        Aonehot[range(len(A)), A] = 1
+        Aonehot[list(range(len(A))), A] = 1
 
         [_, loss, q_online, maxQ, q_target, r, y, error, delta, possible_action_vector_prime, sigma_probs] = self.sess.run(
             [self.train_op, self.loss, self.q_online, self.maxQ, self.q_target, self.r, self.y, self.error, self.delta,
@@ -547,7 +547,7 @@ class L1ReplayMemory(object):
         self.action = np.zeros(capacity, dtype=np.uint8)
         self.reward = np.zeros(capacity, dtype=np.float32)
         self.terminated = np.zeros(capacity, dtype=np.bool)
-        self.transposed_shape = range(1, len(self.input_shape)+1) + [0]
+        self.transposed_shape = list(range(1, len(self.input_shape)+1)) + [0]
 
     def append(self, S1, Sigma1, A, R, S2, Sigma2, T):
         self.screens[self.t, :, :] = S1

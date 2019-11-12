@@ -11,7 +11,7 @@ def down_convolution(inp, kernel, stride, filter_in, filter_out, rectifier):
 
 
 def down_convolution_weights(inp, dqn_numbers, max_dqn_number, kernel, stride, filter_in, filter_out, rectifier):
-    print inp
+    print(inp)
     batch_size = tf.shape(inp)[0]
     #inp = tf.reshape(inp, [batch_size] + [x.value for x in inp.get_shape()[1:]])
 

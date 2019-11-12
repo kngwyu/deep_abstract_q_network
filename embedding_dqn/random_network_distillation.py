@@ -87,7 +87,7 @@ class RND_Array(object):
         self.rnd_train_ops = []
         with tf.variable_scope(name, reuse=reuse) as scope:
             print('initializing rnd array...')
-            for i in tqdm.tqdm(range(self.num_rnds)):
+            for i in tqdm.tqdm(list(range(self.num_rnds))):
                 square_diffs, loss, train_op = self.build_training_pair('rnd_%s' % i)
                 self.rnd_square_diffs.append(square_diffs)
                 self.rnd_losses.append(loss)

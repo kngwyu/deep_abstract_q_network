@@ -6,7 +6,7 @@ import tqdm
 import os
 
 import atari
-import atari_dqn
+from . import atari_dqn
 import coin_game
 import dq_learner
 import toy_mr
@@ -16,7 +16,7 @@ import tabular_dqn
 import tabular_coin_game
 from embedding_dqn import mr_environment
 from embedding_dqn.abstraction_tools import montezumas_abstraction as ma
-import l0_learner
+from . import l0_learner
 import scipy.misc
 
 # import daqn_clustering
@@ -44,7 +44,7 @@ def record_episode(steps, env, agent, epsilon, abs_func):
     env.reset_environment()
     total_reward = 0
     episode_rewards = []
-    for i in tqdm.tqdm(range(steps)):
+    for i in tqdm.tqdm(list(range(steps))):
         state = env.get_current_state()
         scipy.misc.imsave(record_dir + str(i) + '.png', np.transpose(pygame.surfarray.array3d(env.screen), [1, 0, 2]))
 

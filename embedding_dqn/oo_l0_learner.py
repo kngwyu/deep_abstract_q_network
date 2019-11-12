@@ -2,10 +2,10 @@
 import tensorflow as tf
 import numpy as np
 import tf_helpers as th
-import oo_rmax_learner
-from oo_replay_memory import MMCPathTracker
-from oo_replay_memory import MMCPathTrackerExplore
-from oo_replay_memory import ReplayMemory
+from . import oo_rmax_learner
+from .oo_replay_memory import MMCPathTracker
+from .oo_replay_memory import MMCPathTrackerExplore
+from .oo_replay_memory import ReplayMemory
 from collections import deque
 
 
@@ -285,7 +285,7 @@ class MultiHeadedDQLearner():
         if double:
             with tf.variable_scope('online', reuse=True):
                 self.q_online_prime, self.q_online_prime_explore = q_constructor(masked_sp_input)
-                print self.q_online_prime
+                print(self.q_online_prime)
         else:
             self.q_online_prime = None
             self.q_online_prime_explore = None
@@ -333,7 +333,7 @@ class MultiHeadedDQLearner():
 
         if restore_network_file is not None:
             self.saver.restore(self.sess, restore_network_file)
-            print 'Restored network from file'
+            print('Restored network from file')
         self.sess.run(self.copy_op)
 
         self.encoding_func = encoding_func
@@ -358,7 +358,7 @@ class MultiHeadedDQLearner():
             S1, DQNNumbers, A, R, R_explore, MMC_R, MMC_R_explore, S2, T, M1, M2 = self.replay_buffer.sample_from_distribution(self.batch_size, dqn_distribution)
 
         Aonehot = np.zeros((self.batch_size, self.num_actions), dtype=np.float32)
-        Aonehot[range(len(A)), A] = 1
+        Aonehot[list(range(len(A))), A] = 1
 
         if cts is not None:
             for i, (dqn_number, r_explore, mmc_r_explore) in enumerate(zip(DQNNumbers, R_explore, MMC_R_explore)):
@@ -368,7 +368,7 @@ class MultiHeadedDQLearner():
                     MMC_R[i] = mmc_r_explore
 
         if np.logical_or(np.array(DQNNumbers) < 0, np.array(DQNNumbers) >= self.max_dqn_number).any():
-            print 'DQN Number outside range'
+            print('DQN Number outside range')
 
         [_, loss, q_online, q_target, pre_gvs, post_gvs] = self.sess.run(
             [self.train_op, self.loss, self.q_online, self.q_target, self.pre_gvs, self.post_gvs],

@@ -48,7 +48,7 @@ class MMCPathTracker(object):
         self._push(S1, DQNNumber, A, R, S2, T)
 
     def flush(self):
-        for i in xrange(len(self.replay_path)):
+        for i in range(len(self.replay_path)):
             self._pop()
         self.path.fill(0)
         self.path_start_index = 0
@@ -102,7 +102,7 @@ class MMCPathTrackerExplore(object):
         self._push(S1, DQNNumber, A, R, R_explore, S2, T)
 
     def flush(self):
-        for i in xrange(len(self.replay_path)):
+        for i in range(len(self.replay_path)):
             self._pop()
         self.path.fill(0)
         self.path_start_index = 0
@@ -167,7 +167,7 @@ class ReplayMemory(object):
         self.reward_explore = np.zeros(capacity, dtype=np.float32)
         self.mmc_reward_explore = np.zeros(capacity, dtype=np.float32)
         self.terminated = np.zeros(capacity, dtype=np.bool)
-        self.transposed_shape = range(1, len(self.input_shape)+1) + [0]
+        self.transposed_shape = list(range(1, len(self.input_shape)+1)) + [0]
         self.dqn_indices = dict()
 
     def append(self, S1, DQNNumber, A, R, R_explore, MMCR, MMCR_explore, S2, T):
@@ -240,13 +240,13 @@ class ReplayMemory(object):
         return self.collect_from_indices(idx)
 
     def sample_from_distribution(self, num_samples, distribution):
-        for key, value in distribution.items():
+        for key, value in list(distribution.items()):
             distribution[key] = value*len(self.dqn_indices[key])
-        sum = np.sum(distribution.values())
+        sum = np.sum(list(distribution.values()))
         for key in distribution:
             distribution[key] /= sum
 
-        keys, values = zip(*distribution.items())
+        keys, values = list(zip(*list(distribution.items())))
         dqn_numbers = np.random.choice(keys, p=values, size=num_samples)
         idx = []
         for n in dqn_numbers:

@@ -13,7 +13,7 @@ def get_agent_position(screen):
     return np.array(np.unravel_index(np.argmin(detector_image), detector_image.shape)) / 84.
 
 
-print get_agent_position(screenshot('Room(6,3)')[:, :, 0])
+print(get_agent_position(screenshot('Room(6,3)')[:, :, 0]))
 
 # definition of montezumas nodes
 

@@ -4,8 +4,8 @@ import numpy as np
 import tf_helpers as th
 from cts import cpp_cts
 from cts import pc_cts
-from replay_memory_pc import ReplayMemory
-from replay_memory_pc import MMCPathTracker
+from .replay_memory_pc import ReplayMemory
+from .replay_memory_pc import MMCPathTracker
 
 
 class DQLearner(interfaces.LearningAgent):
@@ -97,7 +97,7 @@ class DQLearner(interfaces.LearningAgent):
 
         if restore_network_file is not None:
             self.saver.restore(self.sess, restore_network_file)
-            print 'Restored network from file'
+            print('Restored network from file')
         self.sess.run(self.copy_op)
 
         self.cts_size = cts_size
@@ -108,7 +108,7 @@ class DQLearner(interfaces.LearningAgent):
     def update_q_values(self):
         S1, A, R, MMC_R, S2, T, M1, M2 = self.replay_buffer.sample(self.batch_size)
         Aonehot = np.zeros((self.batch_size, self.num_actions), dtype=np.float32)
-        Aonehot[range(len(A)), A] = 1
+        Aonehot[list(range(len(A))), A] = 1
 
         [_, loss, q_online, maxQ, q_target, r, y, error, delta, g] = self.sess.run(
             [self.train_op, self.loss, self.q_online, self.maxQ, self.q_target, self.r, self.y, self.error_dqn, self.delta_dqn,
@@ -162,7 +162,7 @@ class DQLearner(interfaces.LearningAgent):
         return episode_steps, total_reward
 
     def get_action(self, state):
-        size = list(np.array(range(len(self.dqn.get_input_shape())))+1)
+        size = list(np.array(list(range(len(self.dqn.get_input_shape()))))+1)
         state_input = np.transpose(state, size + [0])
 
         [q_values] = self.sess.run([self.q_online],

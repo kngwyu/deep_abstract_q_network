@@ -26,7 +26,7 @@ def setup_toy_mr_env():
     return env, num_actions
 
 toy_mr_env, toy_mr_num_actions = setup_toy_mr_env()
-toy_mr_actions = range(toy_mr_num_actions)
+toy_mr_actions = list(range(toy_mr_num_actions))
 
 
 def encode_toy_mr_state(env):

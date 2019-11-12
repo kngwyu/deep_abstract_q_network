@@ -4,9 +4,9 @@ import interfaces
 import tensorflow as tf
 import numpy as np
 import tf_helpers as th
-import rmax_learner
-from embedding_mmc_replay_memory import MMCPathTracker
-from embedding_mmc_replay_memory import ReplayMemory
+from . import rmax_learner
+from .embedding_mmc_replay_memory import MMCPathTracker
+from .embedding_mmc_replay_memory import ReplayMemory
 
 def construct_root_network(input, frame_history):
     input = tf.image.convert_image_dtype(input, tf.float32)
@@ -222,7 +222,7 @@ class MultiHeadedDQLearner():
         if double:
             with tf.variable_scope('online', reuse=True):
                 self.q_online_prime = q_constructor(masked_sp_input)
-                print self.q_online_prime
+                print(self.q_online_prime)
             self.maxQ = tf.gather_nd(self.q_target, tf.transpose(
                 [tf.range(0, batch_size, dtype=tf.int32), tf.cast(tf.argmax(self.q_online_prime, axis=1), tf.int32)], [1, 0]))
         else:
@@ -271,7 +271,7 @@ class MultiHeadedDQLearner():
 
         if restore_network_file is not None:
             self.saver.restore(self.sess, restore_network_file)
-            print 'Restored network from file'
+            print('Restored network from file')
         self.sess.run(self.copy_op)
 
         ####################
@@ -287,7 +287,7 @@ class MultiHeadedDQLearner():
     def update_q_values(self):
         S1, Sigma1, Sigma2, SigmaGoal, DQNNumbers, A, R, MMC_R, S2, T, M1, M2 = self.replay_buffer.sample(self.batch_size)
         Aonehot = np.zeros((self.batch_size, self.num_actions), dtype=np.float32)
-        Aonehot[range(len(A)), A] = 1
+        Aonehot[list(range(len(A))), A] = 1
 
         # # get random sample of neighbors for each Sigma1
         # SigmaGoal = []

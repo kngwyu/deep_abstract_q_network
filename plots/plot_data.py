@@ -1,4 +1,4 @@
-import parse_results
+from . import parse_results
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -36,8 +36,8 @@ def sliding_mean(data_array, window=5):
     data_array = np.array(data_array)
     new_list = []
     for i in range(len(data_array)):
-        indices = range(max(i - window + 1, 0),
-                        min(i + window + 1, len(data_array)))
+        indices = list(range(max(i - window + 1, 0),
+                        min(i + window + 1, len(data_array))))
         avg = 0
         for j in indices:
             avg += data_array[j]

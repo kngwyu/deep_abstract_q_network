@@ -3,9 +3,9 @@ from collections import deque
 import numpy as np
 import tensorflow as tf
 import sys
-from abstraction_tools.abstraction_interfaces import L1Action, AbstractState
+from .abstraction_tools.abstraction_interfaces import L1Action, AbstractState
 
-import l0_learner
+from . import l0_learner
 from embedding_dqn import value_iteration
 
 
@@ -107,7 +107,7 @@ class RMaxLearner(interfaces.LearningAgent):
         self.actions_for_state[state] = [L1Action(state, None, state.get_vector(), state.get_vector(), dqn_number=-1)]
         self.neighbors[state] = []
 
-        print 'Found new state: %s' % (state,)
+        print('Found new state: %s' % (state,))
 
     def add_new_action(self, state, goal_state):
         new_action = L1Action(state, goal_state, state.get_vector(), goal_state.get_vector(), dqn_number=self.current_dqn_number)
@@ -115,7 +115,7 @@ class RMaxLearner(interfaces.LearningAgent):
         self.neighbors[state].append(goal_state)
         self.current_dqn_number += 1
 
-        print 'Found new action: %s' % (new_action,)
+        print('Found new action: %s' % (new_action,))
 
     def run_vi(self, evaluation=False):
         transitions = dict()
@@ -235,7 +235,7 @@ class RMaxLearner(interfaces.LearningAgent):
             qs = self.evaluation_qs[state]
         else:
             qs = self.qs[state]
-        keys, values = zip(*qs.items())
+        keys, values = list(zip(*list(qs.items())))
         # if evaluation:
         #     action = np.random.choice(np.array(keys)[np.array(values) == np.max(values)])
         # else:

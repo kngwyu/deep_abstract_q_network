@@ -109,7 +109,7 @@ class RMaxLearner(interfaces.LearningAgent):
         self.neighbors[state] = []
         self.current_dqn_number += 1
 
-        print 'Found new state: %s' % (state,)
+        print('Found new state: %s' % (state,))
 
     def add_new_action(self, state, goal_state):
         new_action = L1Action(state, goal_state, self.abs_vec_func(state), self.abs_vec_func(goal_state))
@@ -117,14 +117,14 @@ class RMaxLearner(interfaces.LearningAgent):
         self.neighbors[state].append(goal_state)
         self.current_dqn_number += 1
 
-        print 'Found new action: %s' % (new_action,)
+        print('Found new action: %s' % (new_action,))
 
     def run_vi(self, values, evaluation=False):
         new_values = dict()
-        for i in xrange(self.max_VI_iterations):
+        for i in range(self.max_VI_iterations):
             stop = True
             for s in self.transition_table.states:
-                new_values[s] = np.max(self.calculate_qs(s, evaluation=evaluation).values())
+                new_values[s] = np.max(list(self.calculate_qs(s, evaluation=evaluation).values()))
                 if s in values and np.abs(new_values[s] - values[s]) > self.VI_delta:
                     stop = False
             values = new_values.copy()
@@ -196,7 +196,7 @@ class RMaxLearner(interfaces.LearningAgent):
             a = self.get_l1_action(s)
             dqn_tuple = (a.initial_state, a.goal_state)
             assert s == a.initial_state
-            print 'Executing action: %s -- eps: %.6f' % (a, self.l0_learner.epsilon.get(dqn_tuple, 1.0))
+            print('Executing action: %s -- eps: %.6f' % (a, self.l0_learner.epsilon.get(dqn_tuple, 1.0)))
             episode_steps, R, sp = self.l0_learner.run_learning_episode(self.env, a.initial_state_vec, a.goal_state_vec, s, a.goal_state, self.abs_func, self.abs_vec_func, max_episode_steps=1000)
 
             # #TODO: REMOVE LATER
@@ -228,14 +228,14 @@ class RMaxLearner(interfaces.LearningAgent):
 
     def get_l1_action(self, state, evaluation=False):
         qs = self.calculate_qs(state, evaluation=evaluation)
-        keys, values = zip(*qs.items())
+        keys, values = list(zip(*list(qs.items())))
         if evaluation:
             action = np.random.choice(np.array(keys)[np.array(values) == np.max(values)])
         else:
             temp = 1.0
             norm_values = (values - np.min(values)) / (np.max(values) - np.min(values))
             distribution = np.exp(temp*norm_values) / np.sum(np.exp(temp*norm_values))
-            action = keys[np.random.choice(range(len(distribution)), p=distribution)]
+            action = keys[np.random.choice(list(range(len(distribution))), p=distribution)]
         return action
 
     def get_action(self, state, evaluation=False):

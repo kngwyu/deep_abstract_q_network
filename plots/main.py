@@ -18,7 +18,7 @@ def plot_rewards_toy_mr():
 
     labels = ['DAQN', 'Intrinsic', 'Intrinsic+L', 'Intrinsic+L+S', 'Double DQN']
 
-    plot_data.plot_data(range(num_lines), [data_1, data_2, data_3, data_4, data_5], 'Reward', 'Millions of Frames', 'Average Test Reward',
+    plot_data.plot_data(list(range(num_lines)), [data_1, data_2, data_3, data_4, data_5], 'Reward', 'Millions of Frames', 'Average Test Reward',
                         labels=labels, ylim=[-.1, 1.1], yticks=[0, 1], save_file='./figures/toy_mr_reward.png', legend_loc='lower right')
 
 
@@ -38,7 +38,7 @@ def plot_rooms_toy_mr():
 
     labels = ['DAQN', 'Intrinsic', 'Intrinsic+L', 'Intrinsic+L+S', 'Double DQN']
 
-    plot_data.plot_data(range(num_lines), [data_1, data_2, data_3, data_4, data_5], 'Rooms Discovered', 'Millions of Frames', 'Rooms Discovered',
+    plot_data.plot_data(list(range(num_lines)), [data_1, data_2, data_3, data_4, data_5], 'Rooms Discovered', 'Millions of Frames', 'Rooms Discovered',
                         labels=labels, ylim=None, yticks=None, save_file='./figures/toy_mr_rooms.png', legend_loc='upper right')
 
 def plot_rewards_4_rooms():
@@ -48,7 +48,7 @@ def plot_rewards_4_rooms():
 
     labels = ['DAQN', 'Intrinsic', 'Double DQN']
 
-    plot_data.plot_data(range(0, 200), [data_1, data_2, data_3], 'Reward', 'Millions of Frames', 'Average Test Reward',
+    plot_data.plot_data(list(range(0, 200)), [data_1, data_2, data_3], 'Reward', 'Millions of Frames', 'Average Test Reward',
                         labels=labels, ylim=[-.1, 1.1], yticks=[0, 1], save_file='./figures/4_rooms_reward.png', legend_loc='lower right')
 
 def plot_rooms_4_rooms():
@@ -59,7 +59,7 @@ def plot_rooms_4_rooms():
 
     labels = ['DAQN', 'Intrinsic', 'Double DQN']
 
-    plot_data.plot_data(range(0, 200), [data_1, data_2, data_3], 'Rooms Discovered', 'Millions of Frames', 'Rooms Discovered',
+    plot_data.plot_data(list(range(0, 200)), [data_1, data_2, data_3], 'Rooms Discovered', 'Millions of Frames', 'Rooms Discovered',
                         labels=labels, ylim=None, yticks=None, save_file='./figures/4_rooms_rooms.png', legend_loc='lower right')
 
 def plot_rewards_coin():
@@ -69,7 +69,7 @@ def plot_rewards_coin():
 
     labels = ['DAQN', 'Intrinsic', 'Double DQN']
 
-    plot_data.plot_data(range(0, 200), [data_1, data_2, data_3], 'Reward', 'Millions of Frames', 'Average Test Reward',
+    plot_data.plot_data(list(range(0, 200)), [data_1, data_2, data_3], 'Reward', 'Millions of Frames', 'Average Test Reward',
                         labels=labels, save_file='./figures/coin_reward.png', legend_loc='lower right')
 
 

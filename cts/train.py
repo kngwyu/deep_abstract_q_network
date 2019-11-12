@@ -35,7 +35,7 @@ def evaluate_agent_reward(steps, env, agent, epsilon, max_episode_steps=4500):
     total_reward = 0
     episode_rewards = []
     episode_steps = 0
-    for i in tqdm.tqdm(range(steps)):
+    for i in tqdm.tqdm(list(range(steps))):
         if episode_steps >= max_episode_steps or env.is_current_state_terminal():
             episode_rewards.append(total_reward)
             total_reward = 0
@@ -74,13 +74,13 @@ def train(agent, env, test_epsilon, results_dir, max_episode_steps=None):
         end_time = datetime.datetime.now()
         step_num += episode_steps
 
-        print 'Steps:', step_num, '\tEpisode Reward:', episode_reward, '\tSteps/sec:', episode_steps / (
-        end_time - start_time).total_seconds(), '\tEps:', agent.epsilon
+        print('Steps:', step_num, '\tEpisode Reward:', episode_reward, '\tSteps/sec:', episode_steps / (
+        end_time - start_time).total_seconds(), '\tEps:', agent.epsilon)
 
         steps_until_test -= episode_steps
         if steps_until_test <= 0:
             steps_until_test += test_interval
-            print 'Evaluating network...'
+            print('Evaluating network...')
             episode_rewards = evaluate_agent_reward(test_frames, env, agent, test_epsilon)
             mean_reward = np.mean(episode_rewards)
 
@@ -88,7 +88,7 @@ def train(agent, env, test_epsilon, results_dir, max_episode_steps=None):
                 best_eval_reward = mean_reward
                 agent.save_network('%s/%s_best_net.ckpt' % (results_dir, game))
 
-            print 'Mean Reward:', mean_reward, 'Best:', best_eval_reward
+            print('Mean Reward:', mean_reward, 'Best:', best_eval_reward)
 
             if getattr(env, 'get_discovered_rooms', None):
                 results_file.write('Step: %d -- Mean reward: %.2f -- Num Rooms: %s -- Rooms: %s\n' % (step_num, mean_reward, len(env.get_discovered_rooms()), env.get_discovered_rooms()))

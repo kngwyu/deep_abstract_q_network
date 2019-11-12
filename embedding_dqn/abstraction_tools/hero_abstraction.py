@@ -1,5 +1,5 @@
 import numpy as np
-from abstraction_interfaces import AbstractState
+from .abstraction_interfaces import AbstractState
 
 # RAM_LOCATIONS
 RAM_X = 27

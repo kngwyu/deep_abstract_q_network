@@ -258,7 +258,7 @@ class OORMaxLearner(interfaces.LearningAgent):
                 self.explore_for_pia[pia] = explore_action
                 self.actions.add(explore_action)
 
-        print 'Found new state: %s' % (state,)
+        print('Found new state: %s' % (state,))
 
     def add_new_action(self, state, goal_state):
 
@@ -287,7 +287,7 @@ class OORMaxLearner(interfaces.LearningAgent):
         self.run_vi()
         # self.run_vi(evaluation=True)
 
-        print 'Found new action: %s' % (new_action,)
+        print('Found new action: %s' % (new_action,))
 
     def populate_imagined_states(self):
         old_states = dict()
@@ -484,7 +484,7 @@ class OORMaxLearner(interfaces.LearningAgent):
                 if type(a) is not L1ExploreAction:
                     p = self.transition_table.get_success_rate(a)
                 dist[a.dqn_number] = 1 - p + epsilon
-        sum = np.sum(dist.values())
+        sum = np.sum(list(dist.values()))
         for key in dist:
             dist[key] /= sum
         return dist
@@ -494,7 +494,7 @@ class OORMaxLearner(interfaces.LearningAgent):
             qs = self.evaluation_qs[state]
         else:
             qs = self.qs[state]
-        keys, values = zip(*qs.items())
+        keys, values = list(zip(*list(qs.items())))
         # if evaluation:
         #     action = np.random.choice(np.array(keys)[np.array(values) == np.max(values)])
         # else:

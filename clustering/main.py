@@ -19,7 +19,7 @@ def train_model(num_steps=-1, disp_interval=1000, save_interval=10000, network_n
                                                 network.inp_step: steps,
                                                 network.inp_delta_diff: delta_diff,
                                                 network.inp_delta_max: delta_max})
-        print i, loss
+        print(i, loss)
         if i % disp_interval == 0:
             vh.build_plot('recent', 10, batch_size=batch_size, max_n=max_n)
         if i % save_interval == 0:

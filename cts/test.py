@@ -144,7 +144,7 @@ class LocationDependentDensityModel(object):
 
     def sample(self):
         output_frame = np.zeros(self.symbol_frame.shape + (3,), dtype=np.uint8)
-        print (output_frame.shape)
+        print((output_frame.shape))
 
         for y in range(self.symbol_frame.shape[0]):
             for x in range(self.symbol_frame.shape[1]):
@@ -181,8 +181,8 @@ def train_freeway_density_model(model, num_frames):
         sys.stdout.write('.')
     sys.stdout.write('\n')
 
-    print ('Training time: {:.1f} seconds'.format(time.time() - start_time))
-    print ('Loss (in bytes per frame): {:.2f}'.format(-total_log_probability / math.log(2) / 8 / num_frames))
+    print(('Training time: {:.1f} seconds'.format(time.time() - start_time)))
+    print(('Loss (in bytes per frame): {:.2f}'.format(-total_log_probability / math.log(2) / 8 / num_frames)))
 
 
 
@@ -198,7 +198,7 @@ def train_freeway_density_model(model, num_frames):
 
 
 FRAME_SHAPE = next(freeway_generator(0, 1)).shape
-print ('Frame shape is {}'.format(FRAME_SHAPE))
+print(('Frame shape is {}'.format(FRAME_SHAPE)))
 
 location_dependent_model = LocationDependentDensityModel(frame_shape=(210, 320, 3), context_functor=L_shaped_context)
 train_freeway_density_model(location_dependent_model, num_frames=20)

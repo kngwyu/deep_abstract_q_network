@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import batch_helpers as bh
+from . import batch_helpers as bh
 import toy_mr
 
 def display_side_by_side(save_name, image, recon):

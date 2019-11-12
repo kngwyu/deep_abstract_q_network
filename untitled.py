@@ -13,11 +13,11 @@ def down_convolution_weights(inp, dqn_numbers, max_dqn_number, kernel, stride, f
         B = tf.get_variable('b', [max_dqn_number, filter_out], initializer=tf.constant_initializer(0.0))
     w = tf.reshape(tf.gather_nd(W, tf.reshape(dqn_numbers, [-1, 1])), [batch_size, kernel, kernel, filter_in, filter_out])
     b = tf.reshape(tf.gather_nd(B, tf.reshape(dqn_numbers, [-1, 1])), [batch_size, filter_out])
-    print tf.expand_dims(inp, 0)
+    print(tf.expand_dims(inp, 0))
     c = tf.nn.conv3d(tf.expand_dims(inp, 0), w, [1, 1, stride, stride, 1], 'SAME')[0]# + tf.reshape(b, [batch_size, 1, 1, filter_out])
-    print c
+    print(c)
     #c = tf.reshape(c, [batch_size, tf.shape(c)[2], tf.shape(c)[3], tf.shape(c)[4]])
-    print c
+    print(c)
     return c, W, w, B
 
 def down_convolution_weights2(inp, dqn_numbers, max_dqn_number, kernel, stride, filter_in, filter_out, rectifier):
@@ -37,8 +37,8 @@ def down_convolution_weights2(inp, dqn_numbers, max_dqn_number, kernel, stride, 
         wi = tf.transpose(w[:, :, :, :, i], [1, 2, 3, 0])
         bi = tf.transpose(b[:, i])
         input_i = tf.transpose(tf.expand_dims(inp[:, :, :, i], 0), [0, 2, 3, 1]) # add dummy batch_dim, focus on one channel at a time.
-        print 'wi', wi
-        print 'inp_i', input_i
+        print('wi', wi)
+        print('inp_i', input_i)
 
         res = tf.nn.conv2d(input_i, wi, [1, stride, stride, 1], 'VALID') # [1, h/stride, w/stride, batch_size]
         all_res.append(res)
@@ -74,9 +74,9 @@ sess.run(tf.initialize_all_variables())
 [real_out, real_out_alt] = sess.run([out, out_alt])
 [w_slice_out, w_slice_out_alt] = sess.run([w_slice, w_slice_alt])
 
-print w_slice_out.shape
-print w_slice_out_alt.shape
-print (w_slice_out == w_slice_out_alt).all()
-print ((real_out - real_out_alt)**2 < 10**-5)
-print real_out.shape
-print real_out_alt.shape
+print(w_slice_out.shape)
+print(w_slice_out_alt.shape)
+print((w_slice_out == w_slice_out_alt).all())
+print(((real_out - real_out_alt)**2 < 10**-5))
+print(real_out.shape)
+print(real_out_alt.shape)

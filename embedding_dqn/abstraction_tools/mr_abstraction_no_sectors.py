@@ -1,5 +1,5 @@
 import numpy as np
-from abstraction_interfaces import AbstractState
+from .abstraction_interfaces import AbstractState
 
 room_index = 3
 

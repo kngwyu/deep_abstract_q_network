@@ -18,11 +18,11 @@ class ValueIteration():
         new_values = dict()
         q_values = dict()
 
-        for i in xrange(self.max_VI_iterations):
+        for i in range(self.max_VI_iterations):
             stop = True
             for s in self.states:
                 qs = self.calculate_qs(s, values, utopia_val)
-                val = np.max(qs.values())
+                val = np.max(list(qs.values()))
                 q_values[s] = qs
                 new_values[s] = val
 

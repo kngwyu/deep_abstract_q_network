@@ -46,8 +46,8 @@ class Room():
         self.doors = set()
         self.traps = set()
 
-        for x in xrange(self.size[0]):
-            for y in xrange(self.size[1]):
+        for x in range(self.size[0]):
+            for y in range(self.size[1]):
                 if self.map[x, y] != 0:
                     if self.map[x, y] == WALL_CODE:
                         self.walls.add((x, y))
@@ -157,7 +157,8 @@ class ToyMR(Environment):
         #self.draw()
         self.generate_new_state()
 
-    def flood(self, (y, x), symbol, unchecked_sections, whole_room):
+    def flood(self, xxx_todo_changeme, symbol, unchecked_sections, whole_room):
+        (y, x) = xxx_todo_changeme
         height = len(whole_room)
         width = len(whole_room[0])
         flood_area = set([(y, x)])
@@ -196,9 +197,9 @@ class ToyMR(Environment):
         with open(abs_file) as f:
             lines = f.read().splitlines()
         for line in lines:
-            print '-%s-' % line, 'len:', len(line)
+            print(('-%s-' % line, 'len:', len(line)))
             if r == -1:
-                room_x, room_y, room_w, room_h = map(int, line.split(' '))
+                room_x, room_y, room_w, room_h = list(map(int, line.split(' ')))
                 room = {}
                 curr_loc = (room_x, room_y)
                 r = 0
@@ -225,7 +226,7 @@ class ToyMR(Environment):
 
         # construct numeric representation of each sector
         rooms_numeric_repr = {}
-        for room_xy, room_sector_dict in rooms.items():
+        for room_xy, room_sector_dict in list(rooms.items()):
             numeric_repr = {val: i for i, val in enumerate(set(room_sector_dict.values()))}
             rooms_numeric_repr[room_xy] = numeric_repr
         # rooms contains a mapping from coordinates to abstraction symbols (can be characters or numbers)
@@ -243,7 +244,7 @@ class ToyMR(Environment):
         with open(map_file) as f:
             for line in f.read().splitlines():
                 if r == -1:
-                    room_x, room_y, room_w, room_h = map(int, line.split(' '))
+                    room_x, room_y, room_w, room_h = list(map(int, line.split(' ')))
                     room = Room((room_x, room_y), (room_w, room_h))
                     r = 0
                 else:
@@ -428,7 +429,7 @@ class ToyMR(Environment):
             raise Exception('Cant use sector abstraction if no abstraction file is provided to ToyMR constructor.')
         sector = self.rooms_abs_numeric_map[self.room.loc][self.rooms_abs[self.room.loc][self.agent]]
         #return self.room.loc + (sector,) + tuple(np.array(self.keys.values(), dtype=int)) + tuple(np.array(self.doors.values(), dtype=int))
-        return ToyMRAbstractState(self.room.loc, sector, self.keys.values(), self.doors.values())
+        return ToyMRAbstractState(self.room.loc, sector, list(self.keys.values()), list(self.doors.values()))
 
     def oo_sector_abstraction(self, state):
         if self.rooms_abs is None:
@@ -569,13 +570,13 @@ class ToyMR(Environment):
         self.lives = self.max_lives
         self.enter_cell = self.agent
 
-        for room in self.rooms.values():
+        for room in list(self.rooms.values()):
             room.reset()
 
-        for key, val in self.keys.iteritems():
+        for key, val in list(self.keys.items()):
             self.keys[key] = True
 
-        for key, val in self.doors.iteritems():
+        for key, val in list(self.doors.items()):
             self.doors[key] = True
 
         if self.use_gui:
@@ -722,8 +723,8 @@ class ToyMR(Environment):
         rect = (coord[0] * self.tile_size, coord[1] * self.tile_size + self.hud_height, self.tile_size, self.tile_size)
         pygame.draw.ellipse(self.screen, color, rect)
 
-    def draw_rect(self, coord, color):
-        rect = (coord[0] * self.tile_size, coord[1] * self.tile_size + self.hud_height, self.tile_size, self.tile_size)
+    def ndraw_rect(self, coord, color):
+        rnect = (coord[0] * self.tile_size, coord[1] * self.tile_size + self.hud_height, self.tile_size, self.tile_size)
         pygame.draw.rect(self.screen, color, rect)
 
     def save_map(self, file_name, draw_sectors=False):
@@ -816,7 +817,7 @@ if __name__ == "__main__":
     abs_func = game.oo_abstraction
     pred_func = game.predicate_func
     l1_state = abs_func(None)
-    print l1_state, pred_func(l1_state)
+    print((l1_state, pred_func(l1_state)))
 
     running = True
     while running:
@@ -842,7 +843,7 @@ if __name__ == "__main__":
                     new_l1_state = abs_func(None)
                     if new_l1_state != l1_state:
                         l1_state = new_l1_state
-                        print l1_state, pred_func(l1_state)
+                        print((l1_state, pred_func(l1_state)))
 
                     if game.is_current_state_terminal():
                         game.reset_environment()

@@ -38,8 +38,8 @@ class AtariEnvironment(interfaces.Environment):
         self.zero_history_frames = [np.zeros((84, 84), dtype=np.uint8) for i in range(0, frame_history_length)]
         self.frame_history = copy.copy(self.zero_history_frames)
         atari_actions = self.ale.getMinimalActionSet()
-        self.atari_to_onehot = dict(zip(atari_actions, range(len(atari_actions))))
-        self.onehot_to_atari = dict(zip(range(len(atari_actions)), atari_actions))
+        self.atari_to_onehot = dict(list(zip(atari_actions, list(range(len(atari_actions))))))
+        self.onehot_to_atari = dict(list(zip(list(range(len(atari_actions))), atari_actions)))
         self.screen_image = np.zeros(self.screen_height * self.screen_width, dtype=np.uint8)
 
         self.use_gui = use_gui
@@ -147,7 +147,7 @@ class AtariEnvironment(interfaces.Environment):
 
 def get_action_from_user(action_mapping, special_actions):
     while True:
-        action = raw_input('Action: ')
+        action = input('Action: ')
         if action in special_actions:
             return (action, None)
         try:
@@ -158,13 +158,13 @@ def get_action_from_user(action_mapping, special_actions):
 
 def handle_special_actions(data, game, action_mapping, action_recording, action):
     if action == 'run_recording':
-        file_name = raw_input('Recording File: ')
+        file_name = input('Recording File: ')
         recording = [int(x) for x in open(file_name, 'r').readlines()]
         for action in recording:
             game.perform_action(action)
             action_recording.append(action)
     elif action == 'set_savefile':
-        file_name = raw_input('Recording File: ')
+        file_name = input('Recording File: ')
         data['savefile'] = file_name
     elif action == 'save':
         with open(data['savefile'], 'w') as f:
@@ -179,9 +179,9 @@ def handle_special_actions(data, game, action_mapping, action_recording, action)
                 game.perform_action(action)
                 action_recording.append(action)
     elif action == 'screenshot':
-        name = raw_input('Name:')
+        name = input('Name:')
         path = os.path.join(data['screenshot_dir'], name) + '.png'
-        print path
+        print(path)
         state = game.get_current_state()[-1]
         cv2.imwrite(path, state)
 
@@ -199,7 +199,7 @@ if __name__ == '__main__':
     if not os.path.isdir(data['screenshot_dir']):
         os.mkdir(data['screenshot_dir'])
     #action_mapping = dict(zip([str(x) for x in range(len(actions))], range(len(actions))))
-    print len(action_mapping)
+    print(len(action_mapping))
     buffer = ['', '']
     action_recording = []
     while True:
@@ -214,7 +214,7 @@ if __name__ == '__main__':
                 mapped_action = 11
             if buffer == ['a', ' ']:
                 mapped_action = 12
-            print 'Performing', '-'+action+'-'
+            print('Performing', '-'+action+'-')
             game.perform_action(actions[mapped_action])
 
             action_recording.append(actions[mapped_action])

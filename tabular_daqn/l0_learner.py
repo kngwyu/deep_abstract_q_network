@@ -2,7 +2,7 @@ import interfaces
 import tensorflow as tf
 import numpy as np
 import tf_helpers as th
-from augmented_replay_memory import ReplayMemory
+from .augmented_replay_memory import ReplayMemory
 
 
 def construct_root_network(input, frame_history):
@@ -69,7 +69,7 @@ class MultiHeadedDQLearner():
                 double_root = construct_root_network(masked_sp_input, frame_history)
                 self.qs_online_prime = construct_heads_network(double_root, num_actions, num_abstract_states)
                 self.q_online_prime = tf.gather_nd(self.qs_online_prime, tf.concat(1, [tf.expand_dims(tf.range(0, tf.shape(self.inp_q_choices)[0]), 1), tf.expand_dims(self.inp_q_choices, 1)]))
-                print self.q_online_prime
+                print(self.q_online_prime)
             self.maxQ = tf.gather_nd(self.q_target, tf.transpose(
                 [tf.range(0, 32, dtype=tf.int32), tf.cast(tf.argmax(self.q_online_prime, axis=1), tf.int32)], [1, 0]))
         else:
@@ -106,13 +106,13 @@ class MultiHeadedDQLearner():
 
         if restore_network_file is not None:
             self.saver.restore(self.sess, restore_network_file)
-            print 'Restored network from file'
+            print('Restored network from file')
         self.sess.run(self.copy_op)
 
     def update_q_values(self):
         S1, Alpha, A, R, S2, T, M1, M2 = self.replay_buffer.sample(self.batch_size)
         Aonehot = np.zeros((self.batch_size, self.num_actions), dtype=np.float32)
-        Aonehot[range(len(A)), A] = 1
+        Aonehot[list(range(len(A))), A] = 1
 
         [_, loss, q_online, maxQ, q_target, r, y, error, delta, g] = self.sess.run(
             [self.train_op, self.loss, self.q_online, self.maxQ, self.q_target, self.r, self.y, self.error, self.delta,

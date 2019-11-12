@@ -3,13 +3,13 @@ import pygame
 import tqdm
 
 import toy_mr
-import toy_mr_encoder
-import pc_cts
+from . import toy_mr_encoder
+from . import pc_cts
 
 map_file = '../mr_maps/full_mr_map.txt'
 game = toy_mr.ToyMR(map_file)
 
-print 'Collecting data...'
+print('Collecting data...')
 states = []
 for i in range(0, 10000):
     if game.is_current_state_terminal():
@@ -18,13 +18,13 @@ for i in range(0, 10000):
     action = np.random.choice([0,1,2,3])
     game.perform_action(action)
 
-print 'Training...'
+print('Training...')
 cts = pc_cts.LocationDependentDensityModel((11, 11), lambda x, y: x, pc_cts.L_shaped_context)
 for i in tqdm.trange(1000):
     ii = np.random.randint(0, len(states))
     cts.update(states[ii])
 
-print 'Ready!'
+print('Ready!')
 game.reset_environment()
 running = True
 while running:
@@ -46,7 +46,7 @@ while running:
 
             if action != -1:
                 game.perform_action(action)
-                print cts.log_prob(toy_mr_encoder.encode_toy_mr_state(game))
+                print(cts.log_prob(toy_mr_encoder.encode_toy_mr_state(game)))
 
                 if game.is_current_state_terminal():
                     game.reset_environment()

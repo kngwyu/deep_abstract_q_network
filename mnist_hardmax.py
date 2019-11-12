@@ -28,8 +28,8 @@ def categorical_onehot(n, x):
         ii.append(tf.expand_dims(tf.cast(tf.sparse_to_dense(i[j], [10], [1]), tf.float32), 0))
     I = tf.concat(0, ii)
     #I = tf.cast(tf.sparse_to_dense(i, [32, 10], tf.ones([32])), tf.float32)
-    print I
-    print probs
+    print(I)
+    print(probs)
     eps =  I - probs
     return probs + tf.stop_gradient(eps), r_tile, i
 
@@ -63,7 +63,7 @@ NUM_TEST = 1000
 for i in range(NUM_TRAIN):
     inp_mnist_, inp_target_ = mnist.train.next_batch(32)
     [_, loss_, categories_, probs_, r_tile_, indices_] = sess.run([train_op, loss, categories, probs, r_tile, indices], feed_dict={inp_mnist: inp_mnist_, inp_target: inp_target_})
-    print i, loss_
+    print(i, loss_)
 
 
 grand_mean = 0
@@ -72,4 +72,4 @@ for i in range(NUM_TEST):
     [probs_] = sess.run([probs], feed_dict={inp_mnist: inp_mnist_, inp_target: inp_target_})
     acc = np.mean(np.argmax(probs_, axis=1) == np.argmax(inp_target_, axis=1), 0)
     grand_mean += acc
-print grand_mean / float(NUM_TEST)
+print(grand_mean / float(NUM_TEST))

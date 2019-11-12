@@ -16,7 +16,7 @@ class ReplayMemory(object):
         self.action = np.zeros(capacity, dtype=np.uint8)
         self.reward = np.zeros(capacity, dtype=np.float32)
         self.terminated = np.zeros(capacity, dtype=np.bool)
-        self.transposed_shape = range(1, len(self.input_shape)+1) + [0]
+        self.transposed_shape = list(range(1, len(self.input_shape)+1)) + [0]
 
     def append(self, S1, Alpha, A, R, S2, T):
         self.screens[self.t, :, :] = S1

@@ -19,7 +19,7 @@ def handlabel_examples():
 def build_plot(save_name, num_samples, batch_size=32, max_n=5, store_points=False):
     f, ax = plt.subplots()
     all_points = []
-    for i in tqdm.tqdm(range(num_samples)):
+    for i in tqdm.tqdm(list(range(num_samples))):
         s1, s2, n = bh.get_batch(batch_size, max_n)
         [e1] = network.sess.run([network.e1], feed_dict={network.inp_state1: s1})
         all_points.append(e1)

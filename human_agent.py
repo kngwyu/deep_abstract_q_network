@@ -52,12 +52,12 @@ if __name__ == "__main__":
     running = True
     while running:
         if env.is_current_state_terminal():
-            print 'TERMINAL'
+            print('TERMINAL')
             env.reset_environment()
             if abstraction is not None:
                 abstraction.reset()
                 l1_state = abstraction.oo_abstraction_function(None)
-                print l1_state
+                print(l1_state)
 
         # respond to human input
         for event in pygame.event.get():
@@ -121,7 +121,7 @@ if __name__ == "__main__":
                 new_l1_state = abstraction.oo_abstraction_function(None)
                 if new_l1_state != l1_state:
                     l1_state = new_l1_state
-                    print l1_state, abstraction.predicate_func(l1_state)
+                    print(l1_state, abstraction.predicate_func(l1_state))
 
 
 

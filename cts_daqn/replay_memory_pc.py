@@ -18,7 +18,7 @@ class ReplayMemory(object):
         self.sigma2 = np.zeros([capacity, abs_size], dtype=np.float32)
         self.encoded_screens = np.zeros([capacity, 11, 12], dtype=np.uint32)
         self.terminated = np.zeros(capacity, dtype=np.bool)
-        self.transposed_shape = range(1, len(self.input_shape)+1) + [0]
+        self.transposed_shape = list(range(1, len(self.input_shape)+1)) + [0]
 
     def append(self, S1, Sigma1, Sigma2, A, R, S2, enc_S2, T):
         self.screens[self.t] = S1

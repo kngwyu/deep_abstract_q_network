@@ -25,4 +25,4 @@ res_a = tf.concat([tf.matmul(tf.expand_dims(fake_inp[0], 0), W[3]), tf.matmul(tf
 sess = tf.Session()
 sess.run(tf.initialize_all_variables())
 [real_a, real_res_a] = sess.run([a, res_a])
-print real_a == real_res_a
+print(real_a == real_res_a)

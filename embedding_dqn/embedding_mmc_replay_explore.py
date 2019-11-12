@@ -28,7 +28,7 @@ class MMCPathTracker(object):
         self.path_length_counter = min(self.path_length_counter + 1, self.max_path_length)
 
     def flush(self):
-        for i in xrange(len(self.path)):
+        for i in range(len(self.path)):
             self.pop()
         self.C = 0
         self.path_length_counter = 0
@@ -55,7 +55,7 @@ class ReplayMemory(object):
         self.reward = np.zeros(capacity, dtype=np.float32)
         self.mmc_reward = np.zeros(capacity, dtype=np.float32)
         self.terminated = np.zeros(capacity, dtype=np.bool)
-        self.transposed_shape = range(1, len(self.input_shape)+1) + [0]
+        self.transposed_shape = list(range(1, len(self.input_shape)+1)) + [0]
 
     def append(self, S1, Sigma1, Sigma2, SigmaGoal, DQNNumber, A, R, MMCR, S2, T):
         if self.filled:

@@ -111,7 +111,7 @@ class FcnVAE(object):
 			n_samples = self.dataset.num_examples
 			batch_xs = self.dataset.next_batch(self.batch_size)
 			start_cost = sess.run([self.cost], feed_dict={self.x: batch_xs})
-			print('Test run after starting{}'.format(start_cost))
+			print(('Test run after starting{}'.format(start_cost)))
 			writer = tf.summary.FileWriter(self.logs_path, graph=tf.get_default_graph())
 			for epoch in range(epochs): 
 				avg_cost = 0.
@@ -129,12 +129,12 @@ class FcnVAE(object):
 				# Display logs per epoch step
 				if epoch % 10 == 0:
 					save_path = saver.save(sess, self.ckpt_dir + "%d" % epoch + 'samples_x_coord') #Saves the weights (not the graph)
-					print("Model saved in file: {}".format(save_path))
+					print(("Model saved in file: {}".format(save_path)))
 					#print "Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost)
 				if epoch % 1 == 0:
 					# save_path = saver.save(sess, ckpt_dir + "%d" % epoch + '20z_infepoch') #Saves the weights (not the graph)
 					# print("Model saved in file: {}".format(save_path))
-					print "Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost)
+					print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
 
 	def test_and_visulaize(ckpt_file, ckpt_dir): 
 		saver = tf.train.Saver()

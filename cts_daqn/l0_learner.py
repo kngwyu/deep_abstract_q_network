@@ -143,7 +143,7 @@ class MultiHeadedDQLearner():
         if double:
             with tf.variable_scope('online', reuse=True):
                 self.q_online_prime = construct_dqn_with_embedding_2_layer(masked_sp_input, self.inp_abs_state_init, self.inp_abs_state_goal, frame_history, num_actions)
-                print self.q_online_prime
+                print(self.q_online_prime)
             self.maxQ = tf.gather_nd(self.q_target, tf.transpose(
                 [tf.range(0, 32, dtype=tf.int32), tf.cast(tf.argmax(self.q_online_prime, axis=1), tf.int32)], [1, 0]))
         else:
@@ -180,7 +180,7 @@ class MultiHeadedDQLearner():
 
         if restore_network_file is not None:
             self.saver.restore(self.sess, restore_network_file)
-            print 'Restored network from file'
+            print('Restored network from file')
         self.sess.run(self.copy_op)
 
         self.cts = dict()
@@ -190,7 +190,7 @@ class MultiHeadedDQLearner():
     def update_q_values(self):
         S1, Sigma1, Sigma2, A, R_plus, S2, T, enc_s, M1, M2 = self.replay_buffer.sample(self.batch_size)
         Aonehot = np.zeros((self.batch_size, self.num_actions), dtype=np.float32)
-        Aonehot[range(len(A)), A] = 1
+        Aonehot[list(range(len(A))), A] = 1
 
         # get random sample of neighbors for each Sigma1
         SigmaGoal = []
@@ -235,7 +235,7 @@ class MultiHeadedDQLearner():
             self.epsilon[dqn_tuple] = 1.0
 
         key_init = tuple(initial_l1_state_vec)
-        if not self.abs_neighbors.has_key(key_init):
+        if key_init not in self.abs_neighbors:
             self.abs_neighbors[key_init] = set()
             self.abs_neighbors[key_init].add(key_init)
 

@@ -25,7 +25,7 @@ if __name__ == "__main__":
     dqn = l0_learner.MultiHeadedDQLearner(abs_size, len(env.get_actions_for_state(None)), 1)
     dqn.saver.restore(dqn.sess, './mr_net')
     l1_state = abstraction_tree.get_abstract_state()
-    print ma.abstraction_tree.get_agent_sector()
+    print(ma.abstraction_tree.get_agent_sector())
     right = False
     left = False
     up = False
@@ -57,7 +57,7 @@ if __name__ == "__main__":
                 elif event.key == pygame.K_SPACE:
                     fire = True
                 elif event.key == pygame.K_z:
-                    (sector_x, sector_y) = eval(raw_input('Enter Sector:'))
+                    (sector_x, sector_y) = eval(input('Enter Sector:'))
                     current_state = abstraction_tree.get_abstract_state()
                     next_state = copy.deepcopy(current_state)
                     next_state.sector = (sector_x, sector_y)
@@ -97,5 +97,5 @@ if __name__ == "__main__":
 
             if new_l1_state != l1_state:
                 l1_state = new_l1_state
-                print l1_state
+                print(l1_state)
 
